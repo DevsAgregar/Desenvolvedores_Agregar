@@ -1,0 +1,78 @@
+import pyautogui
+import cv2
+import numpy as np
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+import time
+import os
+
+chrome_options = Options()
+servico = Service(ChromeDriverManager().install())
+navegador = webdriver.Chrome(service=servico, options=chrome_options)
+
+# Coordenadas da região onde os botões aparecem
+x1, y1 = 250, 300
+x2, y2 = 650, 650
+width = x2 - x1
+height = y2 - y1
+
+def acessa_calculadora():
+    navegador.get('https://www.google.com/search?q=calculadora&oq=CALCU&gs_lcrp=EgZjaHJvbWUqDggAEEUYJxg7GIAEGIoFMg4IABBFGCcYOxiABBiKBTIGCAEQRRg5MgcIAhAAGIAEMg0IAxAAGIMBGLEDGIAEMg0IBBAAGIMBGLEDGIAEMgcIBRAAGIAEMg0IBhAAGIMBGLEDGIAEMhIIBxAAGEMYgwEYsQMYgAQYigUyDAgIEAAYQxiABBiKBTIHCAkQABiPAtIBCDEwNjFqMGo3qAIAsAIA&sourceid=chrome&ie=UTF-8')
+    time.sleep(2)
+
+# Função para capturar a tela
+def capture_screen(region=None):
+    screenshot = pyautogui.screenshot(region=region)
+    screenshot = cv2.cvtColor(np.array(screenshot), cv2.COLOR_RGB2BGR)
+    screenshot_gray = cv2.cvtColor(screenshot, cv2.COLOR_BGR2GRAY)  # Converter para escala de cinza
+    return screenshot_gray
+
+# Função para encontrar a posição do número na tela
+def find_number_on_screen(number_image_path, screenshot, threshold=0.7):
+    number_image = cv2.imread(number_image_path, 0)
+    if number_image is None:
+        raise FileNotFoundError(f"Não foi possível carregar a imagem: {number_image_path}")
+    result = cv2.matchTemplate(screenshot, number_image, cv2.TM_CCOEFF_NORMED)
+    min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
+    
+    # Verificar se a correspondência é boa o suficiente
+    if max_val >= threshold:
+        return max_loc
+    else:
+        return None
+
+# Função para clicar na posição do número
+def click_number(number_image_path, region=None):
+    screenshot = capture_screen(region)
+    position = find_number_on_screen(number_image_path, screenshot)
+    if position:
+        pyautogui.click(position[0] + (region[0] if region else 0), position[1] + (region[1] if region else 0))
+    else:
+        print(f"Não foi possível encontrar o número na imagem: {number_image_path}")
+
+def main():
+    # Acessa a calculadora
+    acessa_calculadora()
+
+    # Defina a região onde os botões aparecem (opcional)
+    region = (x1, y1, width, height)  # Substitua com as coordenadas reais
+
+    # Caminho para as imagens dos números
+    number_images = {
+        '2': r'C:\\imagens_sicoob\\imagem_2.png',
+        '3': r'C:\\imagens_sicoob\\imagem_3.png',
+        '1': r'C:\\imagens_sicoob\\imagem_1.png',
+        '4': r'C:\\imagens_sicoob\\imagem_4.png'
+    }
+
+    # Senha a ser inserida
+    password = "1234"
+
+    # Inserir a senha clicando nos botões
+    for digit in password:
+        click_number(number_images[digit], region)
+
+if __name__ == "__main__":
+    main()
