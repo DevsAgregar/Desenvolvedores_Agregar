@@ -149,7 +149,7 @@ def executar_script():
                 
                 def mover_arquivos_caixa_competencia():
                     
-                    downloaded_file = os.path.join(download_dir, f"relatorio{data_atual.strftime('%d_%m_%Y')}.csv")                   
+                    downloaded_file = os.path.join(download_dir, f"relatorio_{data_atual.strftime('%d_%m_%Y')}.csv")                   
                     destination_file = "G:\\Drives compartilhados\\Agregar Negócios - Drive Geral\\Agregar Clientes Ativos\\BL GLASSES LTDA\\3. Finanças\\3 - Relatórios Financeiros\\03. BANCO DE DADOS\\CAIXA COMPETENCIA"
                     new_file_name = f"CAIXA COMPETENCIA BLGROUP {data_atual.strftime('%m.%Y')}.csv"
                     new_file_path = os.path.join(destination_file, new_file_name)
