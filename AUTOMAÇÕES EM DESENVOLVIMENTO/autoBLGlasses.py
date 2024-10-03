@@ -8,7 +8,6 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 import time
 from datetime import datetime
-from openpyxl import load_workbook
 
 def executar_script():
     max_tentativas = 2
@@ -17,11 +16,11 @@ def executar_script():
     # Lista de credenciais e destinos
     credenciais_destinos_caixa_financeiro = [
         ("Agregar@BLGroup", "Agregar1234$", 
-         ['G:\\Drives compartilhados\\Agregar Negócios - Drive Geral\\Agregar Clientes Ativos\\BL GLASSES LTDA\\3. Finanças\\3 - Relatórios Financeiros\\03. BANCO DE DADOS\\CAIXA FINANCEIRO\\CAIXA FINANCEIRO BCOUTRO.csv']
+         ['G:\\Drives compartilhados\\Agregar Negócios - Drive Geral\\Agregar Clientes Ativos\\BL GLASSES LTDA\\3. Finanças\\3 - Relatórios Financeiros\\03. BANCO DE DADOS\\CAIXA FINANCEIRO\\CAIXA FINANCEIRO BL GLASSES.csv']
         ),
 
         ("consultoresagregar@b-Coltro", "Agregar1234$", 
-         ['G:\\Drives compartilhados\\Agregar Negócios - Drive Geral\\Agregar Clientes Ativos\\BL GLASSES LTDA\\3. Finanças\\3 - Relatórios Financeiros\\03. BANCO DE DADOS\\CAIXA FINANCEIRO\\CAIXA FINANCEIRO BL GLASSES.csv']
+         ['G:\\Drives compartilhados\\Agregar Negócios - Drive Geral\\Agregar Clientes Ativos\\BL GLASSES LTDA\\3. Finanças\\3 - Relatórios Financeiros\\03. BANCO DE DADOS\\CAIXA FINANCEIRO\\CAIXA FINANCEIRO BCOLTRO.csv']
         )
     ]
 
@@ -73,7 +72,7 @@ def executar_script():
                 navegador.find_element(By.XPATH, '/html/body/div[2]/form/div/div[1]/div/button[1]').click()
                 time.sleep(15)
 
-            def baixar_caixa(destinos):
+            def baixar_caixa_financeiro(destinos):
                 # Acessa a aba de caixas e bancos
                 navegador.get('https://www.bling.com.br/caixa.php')
                 time.sleep(15)
@@ -108,7 +107,7 @@ def executar_script():
                 navegador.find_element(By.XPATH, '/html/body/div[6]/div[5]/div[3]/div[1]/div[1]/div/div[3]/button[2]').click()
                 time.sleep(30)
 
-                def mover_arquivos_do_caixa(download_dir, destinos):
+                def mover_arquivos_caixa_financeiro(download_dir, destinos):
                     # Procura os arquivos csv baixados e ordena pela data de modificação (mais recente primeiro)
                     lista_de_csv = sorted(
                         glob.glob(os.path.join(download_dir, '*.csv')),
@@ -120,7 +119,7 @@ def executar_script():
                             if os.path.exists(downloaded_file):
                                 shutil.move(downloaded_file, destinos[i])
 
-                mover_arquivos_do_caixa(download_dir, destinos)
+                mover_arquivos_caixa_financeiro(download_dir, destinos)
 
 
             def baixar_caixa_competencia():
@@ -130,12 +129,14 @@ def executar_script():
                 
                 # Seleciona a coluna "Competência" para filtrar a data
                 navegador.find_element(By.XPATH, '//*[@id="coluna"]').click()
+                time.sleep(2)
                 navegador.find_element(By.XPATH, '//*[@id="coluna"]/option[9]').click()
+                time.sleep(2)
                 
                 # Filtra o período
                 navegador.find_element(By.XPATH, '//*[@id="valor"]').send_keys(data_atual.replace(day=1).strftime('%d/%m/%Y'))
                 navegador.find_element(By.XPATH, '//*[@id="valor2"]').send_keys(data_atual.strftime('%d/%m/%Y'))
-                time.sleep(2)
+                time.sleep(5)
                 
                 # Aperta no botão de filtrar
                 navegador.find_element(By.XPATH, '//*[@id="add_filtro"]').click()
@@ -143,9 +144,9 @@ def executar_script():
                 
                 # Aperta na opção "Exportar" e no botão "Exportar" no pop-up que se abre
                 navegador.find_element(By.XPATH, '//*[@id="exportRelatorioLnk"]').click()
-                time.sleep(2)
-                navegador.find_element(By.XPATH, '/html/body/div[13]/div[3]/div/button[1]').click()
-                time.sleep(10)
+                time.sleep(5)
+                navegador.find_element(By.CSS_SELECTOR, 'body > div.ui-dialog.ui-widget.ui-widget-content.ui-front.ui-dialog-buttons.ui-draggable.ui-dialog-newest > div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button.Button.Button--primary.ui-button.ui-corner-all.ui-widget.button-default').click()
+                time.sleep(15)
                 
                 def mover_arquivos_caixa_competencia():
                     
@@ -160,13 +161,64 @@ def executar_script():
                     else:
                         shutil.move(downloaded_file, new_file_path)
                     
+                mover_arquivos_caixa_competencia()
                     
                     
+            def baixar_contas_pagar():
+                # Acessa o relatório personalizado "Caixa Competência"
+                navegador.get('https://www.bling.com.br/gerenciador.relatorio.php#view/972306')
+                time.sleep(10)
+                
+                # Seleciona a coluna "Competência" para filtrar a data
+                navegador.find_element(By.XPATH, '//*[@id="coluna"]').click()
+                time.sleep(2)
+                navegador.find_element(By.XPATH, '//*[@id="coluna"]/option[2]').click()
+                time.sleep(2)
+                
+                # Filtra o período
+                navegador.find_element(By.XPATH, '//*[@id="valor"]').send_keys(data_atual.replace(day=1).strftime('%d/%m/%Y'))
+                navegador.find_element(By.XPATH, '//*[@id="valor2"]').send_keys(data_atual.strftime('%d/%m/%Y'))
+                time.sleep(5)
+                
+                # Aperta no botão de filtrar
+                navegador.find_element(By.XPATH, '//*[@id="add_filtro"]').click()
+                time.sleep(10)
+                
+                # Aperta na opção "Exportar" e no botão "Exportar" no pop-up que se abre
+                navegador.find_element(By.XPATH, '//*[@id="exportRelatorioLnk"]').click()
+                time.sleep(5)
+                navegador.find_element(By.CSS_SELECTOR, 'body > div.ui-dialog.ui-widget.ui-widget-content.ui-front.ui-dialog-buttons.ui-draggable.ui-dialog-newest > div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button.Button.Button--primary.ui-button.ui-corner-all.ui-widget.button-default').click()
+                time.sleep(15)
+                
+                def mover_arquivos_contas_pagar():
+                    
+                    downloaded_file = os.path.join(download_dir, f"relatorio_{data_atual.strftime('%d_%m_%Y')}.csv")                   
+                    destination_file = "G:\\Drives compartilhados\\Agregar Negócios - Drive Geral\\Agregar Clientes Ativos\\BL GLASSES LTDA\\3. Finanças\\3 - Relatórios Financeiros\\03. BANCO DE DADOS\\CONTAS A PAGAR"
+                    new_file_name = f"CONTAS A PAGAR {data_atual.strftime('%m.%Y')}.csv"
+                    new_file_path = os.path.join(destination_file, new_file_name)
+                    
+                    # Move os arquivos
+                    if os.path.exists(downloaded_file):
+                        shutil.move(downloaded_file, new_file_path)
+                    else:
+                        shutil.move(downloaded_file, new_file_path)
+                    
+                mover_arquivos_contas_pagar()
+                
+
+            funcao_executada = False        
+            
             # Executa o processo para cada conjunto de credenciais e destinos
             for usuario, senha, destinos in credenciais_destinos_caixa_financeiro:
                 login_bling(usuario, senha)
-                baixar_caixa(destinos)
+                baixar_caixa_financeiro(destinos)
 
+                if not funcao_executada:
+                    baixar_caixa_competencia()
+                    baixar_contas_pagar()
+                    funcao_executada = True
+                    
+            break
             
         except Exception as e:
             tentativas += 1
