@@ -9,6 +9,7 @@ from selenium.webdriver.common.by import By
 import time
 from datetime import datetime
 from openpyxl import load_workbook
+import sys
 
 def executar_script():
     max_tentativas = 2
@@ -189,15 +190,19 @@ def executar_script():
                 atualizar_saldos(navegador, indice_iteracao)
                 mover_arquivos(download_dir, destinos)
 
-            break
+            return 0 # 0 para sucesso
 
         except Exception as e:
             tentativas += 1
             if tentativas < max_tentativas:
                 time.sleep(5)
+            else:
+                return 1 # 1 para falha
         
         finally:
             if navegador:
                 navegador.quit()
+                
+    return 1
 
-executar_script()
+sys.exit(executar_script())
