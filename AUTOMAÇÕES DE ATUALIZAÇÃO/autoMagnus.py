@@ -152,7 +152,7 @@ def executar_script():
 
                 xpath_valor_excel = xpath_valores_por_iteracao[indice_iteracao]
 
-                # itera sobre a lista especifica no login que tem menos bancos
+                # itera sobre a lista de xpaths e insere os valores na planilha
                 for xpath, celula in xpath_valor_excel.items():
                     try:
                         elemento = navegador.find_element(By.XPATH, xpath)
@@ -161,7 +161,7 @@ def executar_script():
                     except Exception as e:
                         print('erro')
 
-                 # Salvar a planilha de volta no mesmo arquivo
+                 # Salva a planilha
                 wb.save(caminho_planilha)
 
 

@@ -8,6 +8,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 import time
 from datetime import datetime
+from openpyxl import load_workbook
 
 def executar_script():
     max_tentativas = 2
@@ -122,6 +123,42 @@ def executar_script():
                 mover_arquivos_caixa_financeiro(download_dir, destinos)
 
 
+            def atualizar_saldos(indice_iteracao):
+                # Dicionário de xpaths pelo indice de iteração
+                xpath_valores_por_iteracao = {
+                0:{ # saldos BL
+                    '//*[@id="tabela-saldo-conta"]/tr[4]/td[3]': 'B2',
+                    '//*[@id="tabela-saldo-conta"]/tr[5]/td[3]': 'B3',
+                    '//*[@id="tabela-saldo-conta"]/tr[6]/td[3]': 'B4',
+                    '//*[@id="tabela-saldo-conta"]/tr[7]/td[3]': 'B5',
+                    '//*[@id="tabela-saldo-conta"]/tr[8]/td[3]': 'B6',
+                    '//*[@id="tabela-saldo-conta"]/tr[12]/td[3]': 'B7'
+                },
+                
+                1:{ # saldos bcoltro
+                    '//*[@id="tabela-saldo-conta"]/tr[3]/td[3]': 'B8'
+                }
+                }
+               
+                caminho_planilha = 'G:\\Drives compartilhados\\Agregar Negócios - Drive Geral\\Agregar Clientes Ativos\\BL GLASSES LTDA\\3. Finanças\\3 - Relatórios Financeiros\\03. BANCO DE DADOS\\CAIXA FINANCEIRO\\SALDO DAS CONTAS.xlsx'
+                wb = load_workbook(caminho_planilha)
+                sheet = wb.active
+                
+                xpath_valor_excel = xpath_valores_por_iteracao[indice_iteracao]
+                
+                # itera sobre a lista de xpaths e insere os valores na planilha
+                for xpath, celula in xpath_valor_excel.items():
+                    try:
+                        elemento = navegador.find_element(By.XPATH, xpath)
+                        valor = elemento.text.strip()
+                        sheet[celula] = valor
+                    except Exception as e:
+                        print('erro')
+                        
+                # Salva a planilha
+                wb.save(caminho_planilha)   
+                
+                
             def baixar_caixa_competencia():
                 # Acessa o relatório personalizado "Caixa Competência"
                 navegador.get('https://www.bling.com.br/gerenciador.relatorio.php#view/971647')
@@ -206,12 +243,13 @@ def executar_script():
                 mover_arquivos_contas_pagar()
                 
 
-            funcao_executada = False        
+            funcao_executada = False
             
             # Executa o processo para cada conjunto de credenciais e destinos
-            for usuario, senha, destinos in credenciais_destinos_caixa_financeiro:
+            for indice_iteracao, (usuario, senha, destinos) in enumerate(credenciais_destinos_caixa_financeiro):
                 login_bling(usuario, senha)
                 baixar_caixa_financeiro(destinos)
+                atualizar_saldos(indice_iteracao)
 
                 if not funcao_executada:
                     baixar_caixa_competencia()

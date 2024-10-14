@@ -9,6 +9,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import pyautogui
 import time
+import sys
 
 def executar_script():
     max_tentativas = 2
@@ -114,15 +115,20 @@ def executar_script():
             if os.path.exists(downloaded_file):
                 shutil.move(downloaded_file, destination_file)
 
-            break
+            return 0 # 0 para sucesso
         
         except Exception as e:
             tentativas += 1
             if tentativas < max_tentativas:
                 time.sleep(5)
+            else: 
+                return 1 # 1 para falha
 
         finally:
             if navegador:
                 navegador.quit()
+                
+    return 1
 
-executar_script()
+
+sys.exit(executar_script())
