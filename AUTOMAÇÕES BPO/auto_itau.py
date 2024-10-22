@@ -6,21 +6,34 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
+import os
 
+# Diretório
+download_dir = "C:\\Users\\User\\Downloads"
 
-# Configurações do Chrome para definir o diretório de download
+# Configs do chrome
 chrome_options = Options()
 chrome_options.add_experimental_option("detach", True)
 chrome_options.add_experimental_option("prefs", {
+    "download.default_directory": download_dir,
     "download.prompt_for_download": False,
     "download.directory_upgrade": True,
     "safebrowsing.enabled": True
 })
+chrome_options.add_argument('--start-maximized')
 
-servico = Service(ChromeDriverManager().install())
-navegador = webdriver.Chrome(service=servico, options=chrome_options)
+# Instala o ChromeDriver
+chrome_install = ChromeDriverManager().install()
 
-navegador.get('https://www.google.com/search?q=calculadora&oq=calcu&gs_lcrp=EgZjaHJvbWUqDggAEEUYJxg7GIAEGIoFMg4IABBFGCcYOxiABBiKBTIGCAEQRRg5MhIIAhAAGEMYgwEYsQMYgAQYigUyDQgDEAAYgwEYsQMYgAQyDQgEEAAYgwEYsQMYgAQyBwgFEAAYgAQyDQgGEAAYgwEYsQMYgAQyDQgHEAAYgwEYsQMYgAQyDQgIEAAYgwEYsQMYgAQyBwgJEAAYjwLSAQc4NjNqMGo3qAIAsAIA&sourceid=chrome&ie=UTF-8')
+# Caminho do chromedriver
+folder = os.path.dirname(chrome_install)
+chromedriver_path = os.path.join(folder, "chromedriver.exe")
+service = Service(chromedriver_path)
+
+# Inicializa o navegador
+navegador = webdriver.Chrome(service=service, options=chrome_options)
+
+navegador.get('https://www.itau.com.br/empresas')
 
 
 # Lista de XPaths dos botões
