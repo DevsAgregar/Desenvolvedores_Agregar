@@ -5,7 +5,6 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 import pyautogui
@@ -56,7 +55,7 @@ def executar_script():
                 navegador.find_element(By.XPATH, '//*[@id="root"]/div/div[1]/div/div[2]/form/button').click()
                 time.sleep(5)
                 
-            def baixar_relatorios():
+            def baixar_relatorios_financeiro():
                 
                 for relatorio, destino in relatorios_destinos.items():
                     # Acessa a aba de scripts
@@ -95,7 +94,6 @@ def executar_script():
                     navegador.find_element(By.XPATH, '//*[@id="root"]/div/main/div/div[2]/div/div[2]/div[2]/div/div/button[3]').click()
                     time.sleep(5)
                     
-                    
                     # Caminho do arquivo baixado e do arquivo de destino
                     downloaded_file = os.path.join(download_dir, 'Script.xlsx')
                     destination_file = destino
@@ -110,9 +108,64 @@ def executar_script():
                 "116 - CONTAS A PAGAR COM CENTRO DE CUSTOS": "G:\\Drives compartilhados\\Agregar Negócios - Drive Geral\\Agregar Clientes Ativos\\BRAZZICOR TINTAS\\3. Finanças\\4- Projeto BI\\01. Banco de Dados\\02 - FINANCEIRO\\CONTAS A RECEBER E A PAGAR\\CONTAS A PAGAR FUTURO.xlsx"
             }
 
+            def login_olap_erp():
+                # Acessa o Olap
+                navegador.get('https://olap.saibweb.com.br/')
+                time.sleep(5)
+                
+                # Preenche os campos de login
+                navegador.find_element(By.XPATH, '//*[@id="tbLogin"]').send_keys('BRAZZICOR.AGREGAR')
+                navegador.find_element(By.XPATH, '//*[@id="tbSenha"]').send_keys('123456')
+                navegador.find_element(By.XPATH, '//*[@id="lbLogar"]').click()
+                time.sleep(5)
                     
-            login_saib_erp()
-            baixar_relatorios()
+            def baixar_vendas():
+                # Seleciona o perfil
+                navegador.find_element(By.XPATH, '//*[@id="cbPerfilList_I"]').click()
+                time.sleep(2)
+                navegador.find_element(By.XPATH, '//*[@id="cbPerfilList_DDD_L_LBI1T0"]').click()
+                time.sleep(4)
+                
+                # Seleciona o cenário
+                navegador.find_element(By.XPATH, '//*[@id="cbCenarioList_I"]').click()
+                time.sleep(2)
+                navegador.find_element(By.XPATH, '//*[@id="cbCenarioList_DDD_L_LBI3T0"]').click()
+                time.sleep(4)
+                    
+                # Filtra a data
+                navegador.find_element(By.XPATH, '//*[@id="btnFechar_CD"]').click()
+                time.sleep(2)
+                navegador.find_element(By.XPATH, '//*[@id="popData_dteInicial_I"]').click()
+                pyautogui.hotkey('ctrl', 'a')
+                navegador.find_element(By.XPATH, '//*[@id="popData_dteInicial_I"]').send_keys('01/07/2024')
+                time.sleep(2)
+                
+                # Carrega as informações
+                navegador.find_element(By.XPATH, '//*[@id="btnCarregar_CD"]').click()
+                time.sleep(10)
+                
+                # Exporta o relatório
+                navegador.find_element(By.XPATH, '//*[@id="btnImprimir_CD"]').click()
+                time.sleep(2)
+                navegador.find_element(By.XPATH, '//*[@id="pcImpressao_lstTipoImpressao"]').click()
+                time.sleep(2)
+                pyautogui.hotkey('e')
+                pyautogui.press('enter')
+                navegador.find_element(By.XPATH, '//*[@id="pcImpressao_Button7"]').click()
+                time.sleep(10)
+                
+                # Caminho do arquivo baixado e do arquivo de destino
+                downloaded_file = os.path.join(download_dir, 'RelatorioOLAP.xls')
+                destination_file = "G:\\Drives compartilhados\\Agregar Negócios - Drive Geral\\Agregar Clientes Ativos\\BRAZZICOR TINTAS\\3. Finanças\\4- Projeto BI\\01. Banco de Dados\\03 - COMERCIAL\\RELATÓRIO DE VENDAS PELO OLAP.xls"
+                
+                # Move o arquivo
+                if os.path.exists(downloaded_file):
+                    shutil.move(downloaded_file, destination_file)
+            
+            # login_saib_erp()
+            # baixar_relatorios_financeiro()
+            login_olap_erp()
+            baixar_vendas()
                 
             return 0 # 0 para sucesso
         
