@@ -55,6 +55,14 @@ def executar_script():
                 navegador.find_element(By.XPATH, '//*[@id="root"]/div/div[1]/div/div[2]/form/button').click()
                 time.sleep(5)
                 
+                # Entra na ADM SISTEMA
+                navegador.find_element(By.XPATH, '//*[@id="root"]/div/main/div/div[1]/div/nav/div/button').click()
+                time.sleep(2)
+                navegador.find_element(By.XPATH, '//*[@id="modulo"]/div/div[1]/div[2]').click()
+                pyautogui.write('ADM SISTEMA')
+                pyautogui.press('enter')
+                
+                
             def baixar_relatorios_financeiro():
                 
                 for relatorio, destino in relatorios_destinos.items():
@@ -105,7 +113,7 @@ def executar_script():
             relatorios_destinos = {
                 "96 - MOV CX BCO": "G:\\Drives compartilhados\\Agregar Negócios - Drive Geral\\Agregar Clientes Ativos\\BRAZZICOR TINTAS\\3. Finanças\\4- Projeto BI\\01. Banco de Dados\\02 - FINANCEIRO\\EXTRATO FINANCEIRO a partir do mês 08.xlsx",
                 "88 - CONTAS A RECEBER - POR VENCIMENTO": "G:\\Drives compartilhados\\Agregar Negócios - Drive Geral\\Agregar Clientes Ativos\\BRAZZICOR TINTAS\\3. Finanças\\4- Projeto BI\\01. Banco de Dados\\02 - FINANCEIRO\\CONTAS A RECEBER E A PAGAR\\CONTAS A RECEBER FUTURO.xlsx",
-                "116 - CONTAS A PAGAR COM CENTRO DE CUSTOS": "G:\\Drives compartilhados\\Agregar Negócios - Drive Geral\\Agregar Clientes Ativos\\BRAZZICOR TINTAS\\3. Finanças\\4- Projeto BI\\01. Banco de Dados\\02 - FINANCEIRO\\CONTAS A RECEBER E A PAGAR\\CONTAS A PAGAR FUTURO.xlsx"
+                "116 - CONTAS A PAGAR COM CENTRO DE CUSTOS": "G:\\Drives compartilhados\\Agregar Negócios - Drive Geral\\Agregar Clientes Ativos\\BRAZZICOR TINTAS\\3. Finanças\\4- Projeto BI\\01. Banco de Dados\\02 - FINANCEIRO\\CONTAS A RECEBER E A PAGAR\\CONTAS A PAGAR FUTURO (a partir de 01-11).xlsx"
             }
 
             def login_olap_erp():
@@ -162,8 +170,8 @@ def executar_script():
                 if os.path.exists(downloaded_file):
                     shutil.move(downloaded_file, destination_file)
             
-            # login_saib_erp()
-            # baixar_relatorios_financeiro()
+            login_saib_erp()
+            baixar_relatorios_financeiro()
             login_olap_erp()
             baixar_vendas()
                 

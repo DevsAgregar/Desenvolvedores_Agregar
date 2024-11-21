@@ -97,11 +97,11 @@ def executar_script():
         navegador.find_element(By.XPATH, '//*[@id="drawer-container"]/div/div[4]/div[3]/div/div[1]/textarea[1]').send_keys(cliente["mensagem"])
         time.sleep(5)  
         navegador.find_element(By.XPATH, '//*[@id="drawer-container"]/div/div[4]/div[3]/div/div[1]/textarea[1]').send_keys(Keys.ENTER)                   
-        time.sleep(2)
+        time.sleep(5)
 
         # Finaliza o ticket               
         navegador.find_element(By.XPATH, '/html/body/div[1]/div[2]/main/div/div/div[1]/div/div[2]/div/div/div[1]/div[2]/div/button[4]').click()
-        time.sleep(5)
+        time.sleep(5)                     
         navegador.find_element(By.XPATH, '/html/body/div[3]/div[3]/div/div[2]/button[2]').click()
         time.sleep(10)
 

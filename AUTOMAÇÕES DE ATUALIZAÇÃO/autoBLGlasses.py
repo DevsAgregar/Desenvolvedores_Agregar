@@ -6,6 +6,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import time
 from datetime import datetime
 from openpyxl import load_workbook
@@ -193,7 +195,64 @@ def executar_script():
                         print(f"Arquivo '{downloaded_file}' não encontrado para mover.")
 
                 mover_arquivos_contas_pagar()
+                
+            def baixar_vendas_produtos():
+                # Acessa a aba "pedidos de venda"
+                navegador.get('https://www.bling.com.br/exportacao.vendas.php')
+                time.sleep(8)
+                
+                # Seleciona modelo "Padrão"
+                navegador.find_element(By.XPATH, '//*[@id="spreadsheetModel"]').click()
+                navegador.find_element(By.XPATH, '//*[@id="spreadsheetModel"]/option[2]').click()
+                time.sleep(2)
+                
+                # Seleciona "todas as lojas"
+                navegador.find_element(By.XPATH, '//*[@id="lojasVinculadas"]').click()
+                navegador.find_element(By.XPATH, '//*[@id="todas"]').click()
+                time.sleep(2)
+                
+                # Aperta em "Gerar planilha"
+                navegador.find_element(By.XPATH, '//*[@id="btn_download"]').click()
+                time.sleep(2)
+                
+                xpaths = [
+                    '//*[@id="lista"]/tr/td/a',
+                    '//*[@id="lista"]/tr[1]/td/a',
+                    '//*[@id="lista"]/tr[2]/td/a'
+                ]
 
+                # Para cada XPath na lista
+                for xpath in xpaths:
+                    try:
+                        
+                        elemento_clicavel = WebDriverWait(navegador, 10).until(
+                            EC.element_to_be_clickable((By.XPATH, xpath))
+                        )
+
+                        elemento_clicavel.click()
+                        time.sleep(5)
+        
+                        break
+                    except:
+                        continue
+                    
+                def mover_arquivos_produtos(download_dir, diretorio_destino):
+                    for arquivo in os.listdir(download_dir):
+                        
+                        if arquivo.lower().endswith('.csv'):
+                            
+                            caminho_origem = os.path.join(download_dir, arquivo)
+                            caminho_destino = os.path.join(diretorio_destino, arquivo)
+                            
+                            try:
+                                shutil.move(caminho_origem, caminho_destino)
+                            except Exception as e:
+                                print('Erro')
+                                
+                diretorio_destino = 'G:\\Drives compartilhados\\Agregar Negócios - Drive Geral\\Agregar Clientes Ativos\\BL GLASSES LTDA\\3. Finanças\\3 - Relatórios Financeiros\\03. BANCO DE DADOS\\PRODUTOS\\01 - PRODUTOS GERAL'
+                
+                mover_arquivos_produtos(download_dir, diretorio_destino)
+                
             # Executa o processo para cada conjunto de credenciais e destinos
             for indice_iteracao, (usuario, senha, destinos) in enumerate(credenciais_destinos_caixa_financeiro):
                 login_bling(usuario, senha)
@@ -201,6 +260,7 @@ def executar_script():
                 baixar_caixa_financeiro(destinos, is_first_iteration)
 
                 if is_first_iteration:
+                    baixar_vendas_produtos()
                     baixar_caixa_competencia()
                     baixar_contas_pagar()
 

@@ -18,10 +18,14 @@ def executar_script():
     while tentativas < max_tentativas:
         navegador = None
         try:
-            # Diretório de download temporário
+            # Diretório
             download_dir = "C:\\Users\\User\\Downloads"
+            
+            nome_perfil = 'Default'
 
-            # Configurações do Chrome para definir o diretório de download
+            caminho_perfil = 'C:\\Users\\User\\AppData\\Local\\Google\\Chrome\\User Data'
+            
+            # Configs do chrome
             chrome_options = Options()
             chrome_options.add_experimental_option("detach", True)
             chrome_options.add_experimental_option("prefs", {
@@ -30,7 +34,9 @@ def executar_script():
                 "download.directory_upgrade": True,
                 "safebrowsing.enabled": True
             })
-            chrome_options.add_argument("--start-maximized")
+            chrome_options.add_argument('--start-maximized')
+            chrome_options.add_argument(f'user-data-dir={caminho_perfil}')
+            chrome_options.add_argument(f'profile-directory={nome_perfil}')
 
             # Instala o ChromeDriver
             chrome_install = ChromeDriverManager().install()
@@ -42,7 +48,7 @@ def executar_script():
 
             # Inicializa o navegador
             navegador = webdriver.Chrome(service=service, options=chrome_options)
-
+            
             # Acessa o Conta Azul
             navegador.get('https://mais.contaazul.com/#/login')
             time.sleep(5)
@@ -51,10 +57,10 @@ def executar_script():
             navegador.find_element(
                 By.XPATH, '/html/body/div[1]/div/div[1]/div/div/div/div/div[2]/form/div/div/div[1]/div/div/div/input').send_keys('financeiro@executivacontabil.com')
             time.sleep(2)
-            navegador.find_element(By.XPATH, '/html/body/div[1]/div/div[1]/div/div/div/div/div[2]/form/div/div/div[2]/div/div/div/div/div/input').send_keys('contas9802')
+            navegador.find_element(By.XPATH, '/html/body/div[1]/div/div[1]/div/div/div/div/div[2]/form/div/div/div[2]/div/div/div/div/div/input').send_keys('Contas98022024_')
             time.sleep(2)
             navegador.find_element(By.XPATH, '/html/body/div[1]/div/div[1]/div/div/div/div/div[2]/form/div/div/div[3]/div[1]/div/span/button').click()
-            time.sleep(15)
+            time.sleep(30)
 
             # Fecha o pop-up
             pyautogui.press('esc')
@@ -91,7 +97,7 @@ def executar_script():
             all_period_filter = wait.until(EC.element_to_be_clickable(
                 (By.XPATH, '//*[@id="gateway"]/section/div[3]/div[2]/div[2]/div/div/div[2]/div/div[1]/div[2]/div[1]/div/div/div/div/div/div[2]/div[7]')))
             all_period_filter.click()
-            time.sleep(4)
+            time.sleep(10)
 
             # Espera até que o botão de exportar relatório esteja clicável e clica
             navegador.find_element(By.XPATH, '//*[@id="gateway"]/section/div[2]/div/nav/div/div/div[1]/div[2]/div/div[2]/span/button').click()

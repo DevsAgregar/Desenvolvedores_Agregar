@@ -18,10 +18,14 @@ def executar_script():
     while tentativas < max_tentativas:
         navegador = None
         try:
-            # Diretório de download temporário
+            # Diretório
             download_dir = "C:\\Users\\User\\Downloads"
+            
+            nome_perfil = 'Default'
 
-            # Configurações do Chrome para definir o diretório de download
+            caminho_perfil = 'C:\\Users\\User\\AppData\\Local\\Google\\Chrome\\User Data'
+            
+            # Configs do chrome
             chrome_options = Options()
             chrome_options.add_experimental_option("detach", True)
             chrome_options.add_experimental_option("prefs", {
@@ -30,7 +34,9 @@ def executar_script():
                 "download.directory_upgrade": True,
                 "safebrowsing.enabled": True
             })
-            chrome_options.add_argument("--start-maximized")
+            chrome_options.add_argument('--start-maximized')
+            chrome_options.add_argument(f'user-data-dir={caminho_perfil}')
+            chrome_options.add_argument(f'profile-directory={nome_perfil}')
 
             # Instala o ChromeDriver
             chrome_install = ChromeDriverManager().install()
@@ -62,14 +68,14 @@ def executar_script():
 
             # Pesquisa o Cliente
             navegador.find_element(
-                By.XPATH, '/html/body/div[1]/div/div[2]/div[2]/section/div[3]/div[2]/div/div/div[3]/div/div/div/div/div/div[1]/div[1]/div[1]/div/div/form/div/div/div/div[1]/input').send_keys('Alves E Lima Carretas E Traillers Ltda')
+                By.XPATH, '/html/body/div[1]/div/div[2]/div[2]/section/div[3]/div[2]/div/div/div[2]/div/div/div/div/div/div[1]/div[1]/div[1]/div/div/form/div/div/div/div[1]/input').send_keys('Alves E Lima Carretas E Traillers Ltda')
             time.sleep(2)
             pyautogui.hotkey('enter')
             time.sleep(2)
 
             # Seleciona o cliente
             navegador.find_element(
-                By.XPATH, '/html/body/div[1]/div/div[2]/div[2]/section/div[3]/div[2]/div/div/div[3]/div/div/div/div/div/div[2]/div/div/div/div/table/tbody/tr/td[1]').click()
+                By.XPATH, '/html/body/div[1]/div/div[2]/div[2]/section/div[3]/div[2]/div/div/div[2]/div/div/div/div/div/div[2]/div/div/div/div/table/tbody/tr/td[1]').click()
             time.sleep(2)
 
             # Abre o CA Pro

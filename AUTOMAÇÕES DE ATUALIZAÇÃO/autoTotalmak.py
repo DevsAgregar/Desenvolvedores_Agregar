@@ -57,7 +57,7 @@ def executar_script():
                 navegador.find_element(By.XPATH, '//*[@id="UsuarioSenha"]').send_keys('khelven')
                 time.sleep(1)
                 navegador.find_element(By.XPATH, '//*[@id="login"]/div[5]/button').click()
-                time.sleep(10)
+                time.sleep(15)
 
             def baixar_contas(url, destinos):
                 # Acessa a página do relatório
@@ -74,8 +74,8 @@ def executar_script():
                 filtrar_centro_de_custo = [ 
                     {'xpath_centro_custo': '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[11]/div/div/ul/div/button'},
                     {'xpath_centro_custo': '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[11]/div/div/ul/li[1]/a'},
-                    {'xpath_centro_custo': '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[11]/div/div/ul/li[3]/a'},
-                    {'xpath_centro_custo': '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[11]/div/div/ul/li[2]/a'}
+                    {'xpath_centro_custo': '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[11]/div/div/ul/li[2]/a'},
+                    {'xpath_centro_custo': '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[11]/div/div/ul/li[3]/a'}
                 ]
 
                 # Filtra o período de início
@@ -179,9 +179,9 @@ def executar_script():
             destinos_contas_receber = [
                 {'destino_conta': 'G:\\Drives compartilhados\\Agregar Negócios - Drive Geral\\Agregar Clientes Ativos\\TOTAL MAK\\3. Finanças\\3 - Relatórios Financeiros\\REUNIÃO DE RESULTADOS\\PBI RADAR TOTALMAK\\01. BANCO DE DADOS\\relatorio_contas_receber.xlsx'},
                 {'destino_conta': 'G:\\Drives compartilhados\\Agregar Negócios - Drive Geral\\Agregar Clientes Ativos\\TOTAL MAK\\3. Finanças\\3 - Relatórios Financeiros\\REUNIÃO DE RESULTADOS\\PBI RADAR TOTALMAK\\01. BANCO DE DADOS\\FLUXO DE CAIXA\\CONTAS_RECEBER_CURSOS.xlsx'},
-                {'destino_conta': 'G:\\Drives compartilhados\\Agregar Negócios - Drive Geral\\Agregar Clientes Ativos\\TOTAL MAK\\3. Finanças\\3 - Relatórios Financeiros\\REUNIÃO DE RESULTADOS\\PBI RADAR TOTALMAK\\01. BANCO DE DADOS\\FLUXO DE CAIXA\\CONTAS_RECEBER_ASSISTENCIA-TECNICA.xlsx'},
-                {'destino_conta': 'G:\\Drives compartilhados\\Agregar Negócios - Drive Geral\\Agregar Clientes Ativos\\TOTAL MAK\\3. Finanças\\3 - Relatórios Financeiros\\REUNIÃO DE RESULTADOS\\PBI RADAR TOTALMAK\\01. BANCO DE DADOS\\FLUXO DE CAIXA\\CONTAS_RECEBER_VENDAS-VAREJO.xlsx'}
-            ]
+                {'destino_conta': 'G:\\Drives compartilhados\\Agregar Negócios - Drive Geral\\Agregar Clientes Ativos\\TOTAL MAK\\3. Finanças\\3 - Relatórios Financeiros\\REUNIÃO DE RESULTADOS\\PBI RADAR TOTALMAK\\01. BANCO DE DADOS\\FLUXO DE CAIXA\\CONTAS_RECEBER_VENDAS-VAREJO.xlsx'},
+                {'destino_conta': 'G:\\Drives compartilhados\\Agregar Negócios - Drive Geral\\Agregar Clientes Ativos\\TOTAL MAK\\3. Finanças\\3 - Relatórios Financeiros\\REUNIÃO DE RESULTADOS\\PBI RADAR TOTALMAK\\01. BANCO DE DADOS\\FLUXO DE CAIXA\\CONTAS_RECEBER_ASSISTENCIA-TECNICA.xlsx'}
+            ]                                                                                                 
 
             def baixar_contas_receber_pagar():
                 # Baixa os relatórios de contas a pagar
@@ -218,12 +218,13 @@ def executar_script():
                 navegador.find_element(By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[10]/div/div/ul/li[4]/a').click()
                 time.sleep(1)
 
-                # Marca a opção 'Exibir relatório detalhado'    
-                navegador.find_element(By.XPATH, '//*[@id="app"]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[16]/div[1]/label').click()
+                # Marca a opção 'Exibir relatório detalhado' 
+                                                     
+                navegador.find_element(By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[17]/div[1]/label').click()
                 time.sleep(1)
 
                 # Marca a opção "Exibir canal de venda"
-                navegador.find_element(By.XPATH, '//*[@id="app"]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[16]/div[3]/label').click()
+                navegador.find_element(By.XPATH, '//*[@id="app"]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[17]/div[3]/label').click()
                 time.sleep(1)
 
                 # Lista de xpaths dos centros de custo
@@ -236,6 +237,7 @@ def executar_script():
 
                 # Repetição do processo completo por centros de custo
                 for i, loja in enumerate(filtrar_centro_de_custo):
+                    
                     # Abre o centro de custo                              
                     botao_centro_custo = navegador.find_element(By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[13]/div/div/button')
                     botao_centro_custo.click()
@@ -295,7 +297,6 @@ def executar_script():
                 vendas(destinos_vendas)
 
 
-            # Primeiro dia do mês atual
             primeiro_dia_mes_atual = datetime.now().replace(day=1).strftime("%d/%m/%Y")
 
             # Caminhos de destino para vendas
@@ -426,6 +427,7 @@ def executar_script():
                 WebDriverWait(navegador, 40).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="dv"]/caption/button'))).click()
                 time.sleep(5)
 
+
                 # Caminho do arquivo baixado
                 downloaded_file = os.path.join(download_dir, "relatorio_produtos.xlsx")
 
@@ -536,7 +538,7 @@ def executar_script():
             login_gestaoclick()
 
             # Baixa o contas a pagar e a receber
-            baixar_contas_receber_pagar()
+            #baixar_contas_receber_pagar()
 
             # Baixa as vendas
             baixar_vendas()

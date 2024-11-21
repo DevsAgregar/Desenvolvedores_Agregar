@@ -50,7 +50,7 @@ def executar_script():
 
     if dia_da_semana == 0:  # Segunda-feira
         clientes = [
-            {"nome": "FINANCEIRO / TOTALMAK & AGREGAR", "mensagem": "Olá, TotalMak, muito bom dia! Segue o link de acesso do seu relatório financeiro:  https://app.powerbi.com/view?r=eyJrIjoiNDY4N2NkZDQtNTdkNS00YzExLThlNGYtZTY0M2MzNWY0MDljIiwidCI6ImNmZmVjMmI5LWQ1ODUtNGE2Yi04MzllLTA1MzVlNTljZjViZCJ9"}
+            {"nome": "FINANCEIRO / TOTALMAK & AGREGAR", "mensagem": "Olá, TotalMak, muito bom dia! Segue o link de acesso do seu relatório financeiro:  https://app.powerbi.com/view?r=eyJrIjoiNzgyNTY3ZTItNzk4OS00MDk1LWI5YjAtMzYwZjcwYjJkMmRlIiwidCI6ImNmZmVjMmI5LWQ1ODUtNGE2Yi04MzllLTA1MzVlNTljZjViZCJ9"}
         ]
         
     elif dia_da_semana == 1:  # Terça-feira
@@ -66,7 +66,9 @@ def executar_script():
         ]
 
     elif dia_da_semana == 3:  # Quinta-feira
-        clientes = []
+        clientes = [
+            {"nome": "DIREÇÃO - BL GLASSES", "mensagem": "Olá, BL Glasses, boa tarde! Segue o link de acesso do seu relatório financeiro:  https://app.powerbi.com/view?r=eyJrIjoiODhmZmIwZDYtYjk4Yy00MmZjLTk2NjktZTFiZDZlOTRmODNkIiwidCI6ImNmZmVjMmI5LWQ1ODUtNGE2Yi04MzllLTA1MzVlNTljZjViZCJ9"}
+        ]
 
     elif dia_da_semana == 4:  # Sexta-feira
         clientes = [
