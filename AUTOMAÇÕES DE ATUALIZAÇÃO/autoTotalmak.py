@@ -12,6 +12,7 @@ import time
 from datetime import datetime
 import sys
 
+
 def executar_script():
     max_tentativas = 2
     tentativas = 0
@@ -42,7 +43,8 @@ def executar_script():
             service = Service(chromedriver_path)
 
             # Inicializa o navegador
-            navegador = webdriver.Chrome(service=service, options=chrome_options)
+            navegador = webdriver.Chrome(
+                service=service, options=chrome_options)
 
             # Entra no gestaoclick
             navegador.get('https://gestaoclick.com.br/login/')
@@ -52,11 +54,14 @@ def executar_script():
 
             def login_gestaoclick():
                 # Entra no gestão click
-                navegador.find_element(By.XPATH, '//*[@id="UsuarioEmail"]').send_keys('agregarnegocios@gmail.com')
+                navegador.find_element(
+                    By.XPATH, '//*[@id="UsuarioEmail"]').send_keys('agregarnegocios@gmail.com')
                 time.sleep(1)
-                navegador.find_element(By.XPATH, '//*[@id="UsuarioSenha"]').send_keys('khelven')
+                navegador.find_element(
+                    By.XPATH, '//*[@id="UsuarioSenha"]').send_keys('khelven')
                 time.sleep(1)
-                navegador.find_element(By.XPATH, '//*[@id="login"]/div[5]/button').click()
+                navegador.find_element(
+                    By.XPATH, '//*[@id="login"]/div[5]/button').click()
                 time.sleep(15)
 
             def baixar_contas(url, destinos):
@@ -66,16 +71,23 @@ def executar_script():
 
                 # di = data inicio
                 # df = data final
-                di_contas = navegador.find_element(By.XPATH, '//*[@id="data_inicio_fluxo"]')
-                df_contas = navegador.find_element(By.XPATH, '//*[@id="data_fim_fluxo"]')
-                exibir_relatorio_detalhado = navegador.find_element(By.XPATH, '//*[@id="app"]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[12]/div[1]/label')
+                di_contas = navegador.find_element(
+                    By.XPATH, '//*[@id="data_inicio_fluxo"]')
+                df_contas = navegador.find_element(
+                    By.XPATH, '//*[@id="data_fim_fluxo"]')
+                exibir_relatorio_detalhado = navegador.find_element(
+                    By.XPATH, '//*[@id="app"]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[12]/div[1]/label')
 
                 # Dicionário de xpaths dos centro de custos
-                filtrar_centro_de_custo = [ 
-                    {'xpath_centro_custo': '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[11]/div/div/ul/div/button'},
-                    {'xpath_centro_custo': '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[11]/div/div/ul/li[1]/a'},
-                    {'xpath_centro_custo': '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[11]/div/div/ul/li[2]/a'},
-                    {'xpath_centro_custo': '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[11]/div/div/ul/li[3]/a'}
+                filtrar_centro_de_custo = [
+                    {'xpath_centro_custo':
+                        '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[11]/div/div/ul/div/button'},
+                    {'xpath_centro_custo':
+                        '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[11]/div/div/ul/li[1]/a'},
+                    {'xpath_centro_custo':
+                        '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[11]/div/div/ul/li[2]/a'},
+                    {'xpath_centro_custo':
+                        '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[11]/div/div/ul/li[3]/a'}
                 ]
 
                 # Filtra o período de início
@@ -96,13 +108,15 @@ def executar_script():
 
                 # Repetição do processo completo de contas a pagar e a receber por centros de custo
                 for i, loja in enumerate(filtrar_centro_de_custo):
-                    # Abre o centro de custo                             
-                    botao_centro_custo = navegador.find_element(By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[11]/div/div/button')
+                    # Abre o centro de custo
+                    botao_centro_custo = navegador.find_element(
+                        By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[11]/div/div/button')
                     botao_centro_custo.click()
                     time.sleep(1)
-                    
-                    # Aperta em 'todos'                 
-                    navegador.find_element(By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[11]/div/div/ul/div/button').click()
+
+                    # Aperta em 'todos'
+                    navegador.find_element(
+                        By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[11]/div/div/ul/div/button').click()
                     time.sleep(1)
                     botao_centro_custo.click()
                     time.sleep(1)
@@ -110,34 +124,42 @@ def executar_script():
                     # Lógica para filtrar vendas varejo no contas a receber
                     if i == 3 and "contas_receber" in url:
                         # Abre o plano de contas
-                        navegador.find_element(By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[3]/div/div/button').click()
+                        navegador.find_element(
+                            By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[3]/div/div/button').click()
                         time.sleep(1)
-                        
+
                         # Seleciona "vendas de produtos"
-                        navegador.find_element(By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[3]/div/div/ul/li[2]/a').click()
+                        navegador.find_element(
+                            By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[3]/div/div/ul/li[2]/a').click()
                         time.sleep(1)
 
                         # Seleciona "vendas de balcão"
-                        navegador.find_element(By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[3]/div/div/ul/li[3]/a').click()
+                        navegador.find_element(
+                            By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[3]/div/div/ul/li[3]/a').click()
                         time.sleep(2)
 
                         # Clica em um ponto aleatório para retirar o filtro
-                        navegador.find_element(By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]').click()
+                        navegador.find_element(
+                            By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]').click()
                         time.sleep(2)
-                        
+
                     else:
                         # Executa o XPath normalmente
-                        navegador.find_element(By.XPATH, loja['xpath_centro_custo']).click()
+                        navegador.find_element(
+                            By.XPATH, loja['xpath_centro_custo']).click()
                         time.sleep(1)
 
-                    # Gera o relatório                
-                    navegador.find_element(By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[2]/button[1]').click()
+                    # Gera o relatório
+                    navegador.find_element(
+                        By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[2]/button[1]').click()
+                    time.sleep(10)
 
                     # Muda o foco para a nova aba
                     navegador.switch_to.window(navegador.window_handles[-1])
 
                     # Exporta o relatório
-                    WebDriverWait(navegador, 20).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="dv"]/caption/button'))).click()
+                    WebDriverWait(navegador, 20).until(EC.element_to_be_clickable(
+                        (By.XPATH, '//*[@id="dv"]/caption/button'))).click()
                     time.sleep(2)
 
                     # Define o nome do arquivo baixado com base na URL
@@ -147,7 +169,8 @@ def executar_script():
                         downloaded_file_name = "relatorio_contas_pagar.xlsx"
 
                     # Caminho do arquivo baixado
-                    downloaded_file = os.path.join(download_dir, downloaded_file_name)
+                    downloaded_file = os.path.join(
+                        download_dir, downloaded_file_name)
 
                     # Caminho do arquivo de destino
                     destination_file = destinos[i]['destino_conta']
@@ -181,91 +204,111 @@ def executar_script():
                 {'destino_conta': 'G:\\Drives compartilhados\\Agregar Negócios - Drive Geral\\Agregar Clientes Ativos\\TOTAL MAK\\3. Finanças\\3 - Relatórios Financeiros\\REUNIÃO DE RESULTADOS\\PBI RADAR TOTALMAK\\01. BANCO DE DADOS\\FLUXO DE CAIXA\\CONTAS_RECEBER_CURSOS.xlsx'},
                 {'destino_conta': 'G:\\Drives compartilhados\\Agregar Negócios - Drive Geral\\Agregar Clientes Ativos\\TOTAL MAK\\3. Finanças\\3 - Relatórios Financeiros\\REUNIÃO DE RESULTADOS\\PBI RADAR TOTALMAK\\01. BANCO DE DADOS\\FLUXO DE CAIXA\\CONTAS_RECEBER_VENDAS-VAREJO.xlsx'},
                 {'destino_conta': 'G:\\Drives compartilhados\\Agregar Negócios - Drive Geral\\Agregar Clientes Ativos\\TOTAL MAK\\3. Finanças\\3 - Relatórios Financeiros\\REUNIÃO DE RESULTADOS\\PBI RADAR TOTALMAK\\01. BANCO DE DADOS\\FLUXO DE CAIXA\\CONTAS_RECEBER_ASSISTENCIA-TECNICA.xlsx'}
-            ]                                                                                                 
+            ]
 
             def baixar_contas_receber_pagar():
                 # Baixa os relatórios de contas a pagar
-                baixar_contas('https://gestaoclick.com/relatorios_financeiros/relatorio_contas_pagar', destinos_contas_pagar)
+                baixar_contas(
+                    'https://gestaoclick.com/relatorios_financeiros/relatorio_contas_pagar', destinos_contas_pagar)
 
                 # Baixa os relatórios de contas a receber
-                baixar_contas('https://gestaoclick.com/relatorios_financeiros/relatorio_contas_receber', destinos_contas_receber)
-
+                baixar_contas(
+                    'https://gestaoclick.com/relatorios_financeiros/relatorio_contas_receber', destinos_contas_receber)
 
             def vendas(destinos):
                 # Acessa a página de vendas
-                navegador.get('https://gestaoclick.com/relatorios_vendas/relatorio_vendas')
+                navegador.get(
+                    'https://gestaoclick.com/relatorios_vendas/relatorio_vendas')
                 time.sleep(5)
 
-                # di = data início                         
-                navegador.find_element(By.XPATH, '//*[@id="data_inicio"]').click()
+                # di = data início
+                navegador.find_element(
+                    By.XPATH, '//*[@id="data_inicio"]').click()
                 pyautogui.hotkey('ctrl', 'a')
                 time.sleep(1)
-                navegador.find_element(By.XPATH, '//*[@id="data_inicio"]').send_keys('01/08/2023')
+                navegador.find_element(
+                    By.XPATH, '//*[@id="data_inicio"]').send_keys('01/08/2023')
 
-                # df = data final 
+                # df = data final
                 navegador.find_element(By.XPATH, '//*[@id="data_fim"]').click()
                 pyautogui.hotkey('ctrl', 'a')
                 time.sleep(1)
-                navegador.find_element(By.XPATH, '//*[@id="data_fim"]').send_keys(data_atual)
+                navegador.find_element(
+                    By.XPATH, '//*[@id="data_fim"]').send_keys(data_atual)
                 time.sleep(1)
-
 
                 # Filtra a situação para 'concretizada, concretizada'
-                navegador.find_element(By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[10]/div/div/button').click()
+                navegador.find_element(
+                    By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[10]/div/div/button').click()
                 time.sleep(0.5)
-                navegador.find_element(By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[10]/div/div/ul/li[9]/a').click()
+                navegador.find_element(
+                    By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[10]/div/div/ul/li[9]/a').click()
                 time.sleep(1)
-                navegador.find_element(By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[10]/div/div/ul/li[4]/a').click()
+                navegador.find_element(
+                    By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[10]/div/div/ul/li[4]/a').click()
                 time.sleep(1)
 
-                # Marca a opção 'Exibir relatório detalhado' 
-                                                     
-                navegador.find_element(By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[17]/div[1]/label').click()
+                # Marca a opção 'Exibir relatório detalhado'
+
+                navegador.find_element(
+                    By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[17]/div[1]/label').click()
                 time.sleep(1)
 
                 # Marca a opção "Exibir canal de venda"
-                navegador.find_element(By.XPATH, '//*[@id="app"]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[17]/div[3]/label').click()
+                navegador.find_element(
+                    By.XPATH, '//*[@id="app"]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[17]/div[3]/label').click()
                 time.sleep(1)
 
                 # Lista de xpaths dos centros de custo
                 filtrar_centro_de_custo = [
-                    {'xpath_centro_custo': '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[13]/div/div/ul/div/button'},
-                    {'xpath_centro_custo': '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[13]/div/div/ul/li[1]/a'},
-                    {'xpath_centro_custo': '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[13]/div/div/ul/li[2]/a'},
-                    {'xpath_centro_custo': '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[13]/div/div/ul/li[3]/a'}
+                    {'xpath_centro_custo':
+                        '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[13]/div/div/ul/div/button'},
+                    {'xpath_centro_custo':
+                        '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[13]/div/div/ul/li[1]/a'},
+                    {'xpath_centro_custo':
+                        '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[13]/div/div/ul/li[2]/a'},
+                    {'xpath_centro_custo':
+                        '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[13]/div/div/ul/li[3]/a'}
                 ]
 
                 # Repetição do processo completo por centros de custo
                 for i, loja in enumerate(filtrar_centro_de_custo):
-                    
-                    # Abre o centro de custo                              
-                    botao_centro_custo = navegador.find_element(By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[13]/div/div/button')
+
+                    # Abre o centro de custo
+                    botao_centro_custo = navegador.find_element(
+                        By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[13]/div/div/button')
                     botao_centro_custo.click()
                     time.sleep(1)
                     # Aperta em 'todos'
-                    navegador.find_element(By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[13]/div/div/ul/div/button').click()
+                    navegador.find_element(
+                        By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[13]/div/div/ul/div/button').click()
                     time.sleep(1)
                     botao_centro_custo.click()
                     time.sleep(1)
-                    navegador.find_element(By.XPATH, loja['xpath_centro_custo']).click()
+                    navegador.find_element(
+                        By.XPATH, loja['xpath_centro_custo']).click()
                     time.sleep(1)
 
                     # Aperta em um ponto aleatório para retirar o filtro
-                    navegador.find_element(By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]').click()
+                    navegador.find_element(
+                        By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]').click()
                     time.sleep(1)
 
                     # Gera o relatório
-                    navegador.find_element(By.XPATH, '//*[@id="app"]/div/div/aside[2]/div/section[2]/div/div/div/form/div[2]/button[1]').click()
+                    navegador.find_element(
+                        By.XPATH, '//*[@id="app"]/div/div/aside[2]/div/section[2]/div/div/div/form/div[2]/button[1]').click()
 
                     # Muda o foco para a nova aba
                     navegador.switch_to.window(navegador.window_handles[-1])
 
                     # Exporta o relatório
-                    WebDriverWait(navegador, 20).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="dv"]/caption/button'))).click()
+                    WebDriverWait(navegador, 20).until(EC.element_to_be_clickable(
+                        (By.XPATH, '//*[@id="dv"]/caption/button'))).click()
                     time.sleep(2)
 
                     # Caminho do arquivo baixado
-                    downloaded_file = os.path.join(download_dir, 'relatorio_vendas.xlsx')
+                    downloaded_file = os.path.join(
+                        download_dir, 'relatorio_vendas.xlsx')
 
                     # Caminho do arquivo de destino
                     destination_file = destinos[i]['destino_venda']
@@ -296,7 +339,6 @@ def executar_script():
             def baixar_vendas():
                 vendas(destinos_vendas)
 
-
             primeiro_dia_mes_atual = datetime.now().replace(day=1).strftime("%d/%m/%Y")
 
             # Caminhos de destino para vendas
@@ -308,8 +350,10 @@ def executar_script():
             ]
 
             lista_destinos_url = [
-                {'url': 'https://gestaoclick.com/relatorios_vendas/relatorio_produtos_vendidos', 'destino': 'G:\\Drives compartilhados\\Agregar Negócios - Drive Geral\\Agregar Clientes Ativos\\TOTAL MAK\\3. Finanças\\3 - Relatórios Financeiros\\REUNIÃO DE RESULTADOS\\PBI RADAR TOTALMAK\\01. BANCO DE DADOS\\PRODUTOS VENDIDOS'},
-                {'url': 'https://gestaoclick.com/relatorios_vendas/relatorio_servicos_vendidos', 'destino': 'G:\\Drives compartilhados\\Agregar Negócios - Drive Geral\\Agregar Clientes Ativos\\TOTAL MAK\\3. Finanças\\3 - Relatórios Financeiros\\REUNIÃO DE RESULTADOS\\PBI RADAR TOTALMAK\\01. BANCO DE DADOS\\SERVIÇOS PRESTADOS'}
+                {'url': 'https://gestaoclick.com/relatorios_vendas/relatorio_produtos_vendidos',
+                    'destino': 'G:\\Drives compartilhados\\Agregar Negócios - Drive Geral\\Agregar Clientes Ativos\\TOTAL MAK\\3. Finanças\\3 - Relatórios Financeiros\\REUNIÃO DE RESULTADOS\\PBI RADAR TOTALMAK\\01. BANCO DE DADOS\\PRODUTOS VENDIDOS'},
+                {'url': 'https://gestaoclick.com/relatorios_vendas/relatorio_servicos_vendidos',
+                    'destino': 'G:\\Drives compartilhados\\Agregar Negócios - Drive Geral\\Agregar Clientes Ativos\\TOTAL MAK\\3. Finanças\\3 - Relatórios Financeiros\\REUNIÃO DE RESULTADOS\\PBI RADAR TOTALMAK\\01. BANCO DE DADOS\\SERVIÇOS PRESTADOS'}
             ]
 
             def baixar_produtos_e_servicos_vendidos():
@@ -320,8 +364,10 @@ def executar_script():
 
                     # di = data início
                     # df = data final
-                    di_produtos = navegador.find_element(By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[3]/div/div/div[1]/div/input')
-                    df_produtos = navegador.find_element(By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[3]/div/div/div[4]/div/input')
+                    di_produtos = navegador.find_element(
+                        By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[3]/div/div/div[1]/div/input')
+                    df_produtos = navegador.find_element(
+                        By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[3]/div/div/div[4]/div/input')
 
                     # Filtra o período de início
                     di_produtos.click()
@@ -339,59 +385,74 @@ def executar_script():
                     if 'produtos_vendidos' in produtos_servicos['url']:
 
                         # Filtra a situação como 'concretizada, concretizada' ná página de produtos vendidos
-                        navegador.find_element(By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[9]/div/div/button').click()
+                        navegador.find_element(
+                            By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[9]/div/div/button').click()
                         time.sleep(0.5)
-                        navegador.find_element(By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[9]/div/div/ul/li[4]/a').click()
-                        time.sleep(1)                      
-                        navegador.find_element(By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[9]/div/div/ul/li[9]/a').click()
+                        navegador.find_element(
+                            By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[9]/div/div/ul/li[4]/a').click()
                         time.sleep(1)
-                        navegador.find_element(By.XPATH, '//*[@id="app"]/div/div/aside[2]/div/section[2]/div/div/div').click()
+                        navegador.find_element(
+                            By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[9]/div/div/ul/li[9]/a').click()
                         time.sleep(1)
-                                                        
+                        navegador.find_element(
+                            By.XPATH, '//*[@id="app"]/div/div/aside[2]/div/section[2]/div/div/div').click()
+                        time.sleep(1)
+
                     else:
 
-                        # Filtra a situação como acima se estiver na página de serviços                  
-                        navegador.find_element(By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[8]/div/div/button').click()
-                        time.sleep(0.5)                   
-                        navegador.find_element(By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[8]/div/div/ul/li[4]/a').click()
-                        time.sleep(1)                      
-                        navegador.find_element(By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[8]/div/div/ul/li[9]/a').click()
+                        # Filtra a situação como acima se estiver na página de serviços
+                        navegador.find_element(
+                            By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[8]/div/div/button').click()
+                        time.sleep(0.5)
+                        navegador.find_element(
+                            By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[8]/div/div/ul/li[4]/a').click()
                         time.sleep(1)
-                        navegador.find_element(By.XPATH, '//*[@id="app"]/div/div/aside[2]/div/section[2]/div/div/div').click()
+                        navegador.find_element(
+                            By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[8]/div/div/ul/li[9]/a').click()
+                        time.sleep(1)
+                        navegador.find_element(
+                            By.XPATH, '//*[@id="app"]/div/div/aside[2]/div/section[2]/div/div/div').click()
                         time.sleep(1)
 
                     # Gera o relatório
-                    navegador.find_element(By.XPATH, '//*[@id="app"]/div/div/aside[2]/div/section[2]/div/div/div/form/div[2]/button[1]').click()
-                    
+                    navegador.find_element(
+                        By.XPATH, '//*[@id="app"]/div/div/aside[2]/div/section[2]/div/div/div/form/div[2]/button[1]').click()
+
                     # Muda o foco para a nova aba
                     navegador.switch_to.window(navegador.window_handles[-1])
 
                     # Exporta o relatório
-                    WebDriverWait(navegador, 20).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="dv"]/caption/button'))).click()
+                    WebDriverWait(navegador, 20).until(EC.element_to_be_clickable(
+                        (By.XPATH, '//*[@id="dv"]/caption/button'))).click()
                     time.sleep(2)
 
                     # Caminho do arquivo baixado
                     if "produtos_vendidos" in produtos_servicos['url']:
-                        downloaded_file = os.path.join(download_dir, "relatorio_produtos_vendidos.xlsx")
+                        downloaded_file = os.path.join(
+                            download_dir, "relatorio_produtos_vendidos.xlsx")
                     else:
-                        downloaded_file = os.path.join(download_dir, "relatorio_servicos_vendidos.xlsx")
+                        downloaded_file = os.path.join(
+                            download_dir, "relatorio_servicos_vendidos.xlsx")
 
                     # Caminho do diretório de destino
                     destination_base_dir = produtos_servicos['destino']
 
                     # Verifica se o arquivo baixado existe
                     if os.path.exists(downloaded_file):
-                    
+
                         # Obtém o mês e ano atual
                         current_date = datetime.now().strftime("%m.%Y")
-                        
+
                         # Renomeia o arquivo baixado com o mês e ano atual
                         if "produtos_vendidos" in produtos_servicos['url']:
-                            new_file_name = f"relatorio_produtos_vendidos {current_date}.xlsx"
+                            new_file_name = f"relatorio_produtos_vendidos {
+                                current_date}.xlsx"
                         else:
-                            new_file_name = f"resumo_servicos_vendidos {current_date}.xlsx"
-                            
-                        new_file_path = os.path.join(destination_base_dir, new_file_name)
+                            new_file_name = f"resumo_servicos_vendidos {
+                                current_date}.xlsx"
+
+                        new_file_path = os.path.join(
+                            destination_base_dir, new_file_name)
 
                         # Verifica se o arquivo renomeado já existe no diretório de destino
                         if os.path.exists(new_file_path):
@@ -409,27 +470,29 @@ def executar_script():
                     navegador.switch_to.window(navegador.window_handles[0])
                     time.sleep(2)
 
-
             def baixar_cadastros_produtos():
 
                 # Acessa os cadastros de produtos
-                navegador.get('https://gestaoclick.com/relatorios_cadastros/relatorio_produtos')
+                navegador.get(
+                    'https://gestaoclick.com/relatorios_cadastros/relatorio_produtos')
                 time.sleep(5)
 
                 # Gera o relatório
-                navegador.find_element(By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[2]/button[1]').click()
+                navegador.find_element(
+                    By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[2]/button[1]').click()
                 time.sleep(15)
 
                 # Muda o foco para a nova aba
                 navegador.switch_to.window(navegador.window_handles[-1])
 
                 # Exporta o relatório
-                WebDriverWait(navegador, 40).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="dv"]/caption/button'))).click()
+                WebDriverWait(navegador, 40).until(EC.element_to_be_clickable(
+                    (By.XPATH, '//*[@id="dv"]/caption/button'))).click()
                 time.sleep(5)
 
-
                 # Caminho do arquivo baixado
-                downloaded_file = os.path.join(download_dir, "relatorio_produtos.xlsx")
+                downloaded_file = os.path.join(
+                    download_dir, "relatorio_produtos.xlsx")
 
                 # Caminho do arquivo de destino
                 destination_file = "G:\\Drives compartilhados\\Agregar Negócios - Drive Geral\\Agregar Clientes Ativos\\TOTAL MAK\\3. Finanças\\3 - Relatórios Financeiros\\PRECIFICAÇÃO\\relatorio_produtos.xlsx"
@@ -446,26 +509,29 @@ def executar_script():
                 navegador.switch_to.window(navegador.window_handles[0])
                 time.sleep(2)
 
-
             def baixar_estoque():
-                
+
                 # Acessa a página de estoque
-                navegador.get('https://gestaoclick.com/relatorios_estoque/relatorio_estoque_produtos')
+                navegador.get(
+                    'https://gestaoclick.com/relatorios_estoque/relatorio_estoque_produtos')
                 time.sleep(10)
 
                 # Gera o relatório
-                navegador.find_element(By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[2]/button[1]').click()
+                navegador.find_element(
+                    By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[2]/button[1]').click()
                 time.sleep(15)
 
                 # Muda o foco para a nova aba
                 navegador.switch_to.window(navegador.window_handles[-1])
 
                 # Exporta o relatório
-                WebDriverWait(navegador, 20).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="dv"]/caption/button'))).click()
+                WebDriverWait(navegador, 20).until(EC.element_to_be_clickable(
+                    (By.XPATH, '//*[@id="dv"]/caption/button'))).click()
                 time.sleep(5)
 
                 # Caminho do arquivo baixado
-                downloaded_file = os.path.join(download_dir, "relatorio_estoque_produtos.xlsx")
+                downloaded_file = os.path.join(
+                    download_dir, "relatorio_estoque_produtos.xlsx")
 
                 # Caminho do arquivo de destino
                 destination_file = "G:\\Drives compartilhados\\Agregar Negócios - Drive Geral\\Agregar Clientes Ativos\\TOTAL MAK\\3. Finanças\\3 - Relatórios Financeiros\\PRECIFICAÇÃO\\relatorio_estoque_produtos.xlsx"
@@ -482,16 +548,18 @@ def executar_script():
                 navegador.switch_to.window(navegador.window_handles[0])
                 time.sleep(2)
 
-
             def baixar_compras():
                 # Acessa a página de compras
-                navegador.get('https://gestaoclick.com/relatorios_estoque/relatorio_compras')
+                navegador.get(
+                    'https://gestaoclick.com/relatorios_estoque/relatorio_compras')
                 time.sleep(5)
 
-                # Data inicial e final                   
-                di_compras = navegador.find_element(By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[2]/div/div/div[1]/div/input')
-                df_compras = navegador.find_element(By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[2]/div/div/div[4]/div/input')
-                
+                # Data inicial e final
+                di_compras = navegador.find_element(
+                    By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[2]/div/div/div[1]/div/input')
+                df_compras = navegador.find_element(
+                    By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[2]/div/div/div[4]/div/input')
+
                 # Filtra a data inicial
                 di_compras.click()
                 pyautogui.hotkey('ctrl', 'a')
@@ -505,18 +573,21 @@ def executar_script():
                 df_compras.send_keys(data_atual)
 
                 # Gera o relatório
-                navegador.find_element(By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[2]/button[1]').click()
+                navegador.find_element(
+                    By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[2]/button[1]').click()
                 time.sleep(15)
 
                 # Muda o foco para a nova aba
                 navegador.switch_to.window(navegador.window_handles[-1])
 
                 # Exporta o relatório
-                WebDriverWait(navegador, 20).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="dv"]/caption/button'))).click()
+                WebDriverWait(navegador, 20).until(EC.element_to_be_clickable(
+                    (By.XPATH, '//*[@id="dv"]/caption/button'))).click()
                 time.sleep(5)
 
                 # Caminho do arquivo baixado
-                downloaded_file = os.path.join(download_dir, "relatorio_compras.xlsx")
+                downloaded_file = os.path.join(
+                    download_dir, "relatorio_compras.xlsx")
 
                 # Caminho do arquivo de destino
                 destination_file = "G:\\Drives compartilhados\\Agregar Negócios - Drive Geral\\Agregar Clientes Ativos\\TOTAL MAK\\3. Finanças\\3 - Relatórios Financeiros\\REUNIÃO DE RESULTADOS\\PBI RADAR TOTALMAK\\01. BANCO DE DADOS\\relatorio_Compras.xlsx"
@@ -533,12 +604,11 @@ def executar_script():
                 navegador.switch_to.window(navegador.window_handles[0])
                 time.sleep(2)
 
-
             # Executa o login
             login_gestaoclick()
 
             # Baixa o contas a pagar e a receber
-            #baixar_contas_receber_pagar()
+            baixar_contas_receber_pagar()
 
             # Baixa as vendas
             baixar_vendas()
@@ -554,22 +624,23 @@ def executar_script():
 
             # Baixa o relatório de compras
             baixar_compras()
-            
+
             # Fecha o navegador
             navegador.quit()
 
-            return 0 # 0 para sucesso
+            return 0  # 0 para sucesso
 
         except Exception as e:
             tentativas += 1
             if tentativas < max_tentativas:
                 time.sleep(5)
             else:
-                return 1 # para falha    
-            
+                return 1  # para falha
+
         finally:
             if navegador:
                 navegador.quit()
     return 1
+
 
 sys.exit(executar_script())

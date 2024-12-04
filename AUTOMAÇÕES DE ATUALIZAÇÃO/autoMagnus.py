@@ -80,21 +80,21 @@ def executar_script():
             def baixar_caixa():
                 # Acessa a aba de caixas e bancos
                 navegador.get('https://www.bling.com.br/caixa.php')
-                time.sleep(15)
-
-                # Clica em Limpar para limpar os filtros
-                navegador.find_element(By.XPATH, '/html/body/div[6]/div[5]/div[3]/div[1]/div[2]/span[4]/a').click()
+                time.sleep(10)
+                
+                # Clica em Limpar para limpar os filtros          
+                navegador.find_element(By.XPATH, '//*[@id="clear-all"]/a').click()
                 time.sleep(10)
 
                 # Abre o filtro de data e seleciona período customizado
-                navegador.find_element(By.XPATH, '/html/body/div[6]/div[5]/div[3]/div[1]/div[1]/div/div[2]/div[2]/button').click()
+                navegador.find_element(By.XPATH, '//*[@id="dtButton"]').click()
                 time.sleep(1)
-                navegador.find_element(By.XPATH, '/html/body/div[6]/div[5]/div[3]/div[1]/div[1]/div/div[2]/div[2]/div/div[2]/ul/li[7]').click()
+                navegador.find_element(By.XPATH, '//*[@id="dialog-picker"]/div[2]/ul/li[7]').click()
                 time.sleep(1)
 
                 # Filtra a data 
-                data_inicial_input = navegador.find_element(By.XPATH, '/html/body/div[6]/div[5]/div[3]/div[1]/div[1]/div/div[2]/div[2]/div/div[2]/div[1]/input')
-                data_final_input = navegador.find_element(By.XPATH, '/html/body/div[6]/div[5]/div[3]/div[1]/div[1]/div/div[2]/div[2]/div/div[2]/div[2]/input')
+                data_inicial_input = navegador.find_element(By.XPATH, '//*[@id="data-ini"]')
+                data_final_input = navegador.find_element(By.XPATH, '//*[@id="data-fim"]')
 
                 data_inicial_input.clear()
                 data_inicial_input.send_keys('01/01/2024')
@@ -105,11 +105,11 @@ def executar_script():
                 time.sleep(1)
 
                 # Clica no botão de Filtrar
-                navegador.find_element(By.XPATH, '/html/body/div[6]/div[5]/div[3]/div[1]/div[1]/div/div[2]/div[2]/div/div[3]/div[2]/button').click()
+                navegador.find_element(By.XPATH, '//*[@id="dialog-picker"]/div[3]/div[2]/button').click()
                 time.sleep(20)
 
                 # Clica em Exportar Extrato
-                navegador.find_element(By.XPATH, '/html/body/div[6]/div[5]/div[3]/div[1]/div[1]/div/div[3]/button[2]').click()
+                navegador.find_element(By.XPATH, '//*[@id="act_export"]').click()
                 time.sleep(30)
 
             def atualizar_saldos(navegador, indice_iteracao):
