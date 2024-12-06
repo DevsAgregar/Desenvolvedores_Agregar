@@ -170,8 +170,8 @@ def executar_script():
                 if os.path.exists(downloaded_file):
                     shutil.move(downloaded_file, destination_file)
             
-            login_saib_erp()
-            baixar_relatorios_financeiro()
+            # login_saib_erp()
+            # baixar_relatorios_financeiro()
             login_olap_erp()
             baixar_vendas()
                 

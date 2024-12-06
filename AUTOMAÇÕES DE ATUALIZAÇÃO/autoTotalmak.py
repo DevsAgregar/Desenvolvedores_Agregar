@@ -121,33 +121,10 @@ def executar_script():
                     botao_centro_custo.click()
                     time.sleep(1)
 
-                    # Lógica para filtrar vendas varejo no contas a receber
-                    if i == 3 and "contas_receber" in url:
-                        # Abre o plano de contas
-                        navegador.find_element(
-                            By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[3]/div/div/button').click()
-                        time.sleep(1)
-
-                        # Seleciona "vendas de produtos"
-                        navegador.find_element(
-                            By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[3]/div/div/ul/li[2]/a').click()
-                        time.sleep(1)
-
-                        # Seleciona "vendas de balcão"
-                        navegador.find_element(
-                            By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[3]/div/div/ul/li[3]/a').click()
-                        time.sleep(2)
-
-                        # Clica em um ponto aleatório para retirar o filtro
-                        navegador.find_element(
-                            By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]').click()
-                        time.sleep(2)
-
-                    else:
-                        # Executa o XPath normalmente
-                        navegador.find_element(
-                            By.XPATH, loja['xpath_centro_custo']).click()
-                        time.sleep(1)
+                    # Executa o XPath normalmente
+                    navegador.find_element(
+                        By.XPATH, loja['xpath_centro_custo']).click()
+                    time.sleep(1)
 
                     # Gera o relatório
                     navegador.find_element(
@@ -208,8 +185,8 @@ def executar_script():
 
             def baixar_contas_receber_pagar():
                 # Baixa os relatórios de contas a pagar
-                baixar_contas(
-                    'https://gestaoclick.com/relatorios_financeiros/relatorio_contas_pagar', destinos_contas_pagar)
+                #baixar_contas(
+                    #'https://gestaoclick.com/relatorios_financeiros/relatorio_contas_pagar', destinos_contas_pagar)
 
                 # Baixa os relatórios de contas a receber
                 baixar_contas(

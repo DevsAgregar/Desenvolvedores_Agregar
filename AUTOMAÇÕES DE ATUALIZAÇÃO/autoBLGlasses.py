@@ -16,9 +16,6 @@ def executar_script():
     max_tentativas = 2
     tentativas = 0
 
-    # Diretório de destino único para os arquivos de caixa de competência
-    diretorio_destino_caixa = "CAMINHO_DO_DIRETORIO_CAIXA"
-
     # Lista de credenciais e destinos
     credenciais_destinos_caixa_financeiro = [
         ("Agregar@BLGroup", "Agregar1234$", 
@@ -242,7 +239,7 @@ def executar_script():
 
                 mover_arquivos_contas_pagar()
                 
-            def baixar_vendas_produtos():
+            def baixar_vendas_produtos(prefixo):
                 # Acessa a aba "pedidos de venda"
                 navegador.get('https://www.bling.com.br/exportacao.vendas.php')
                 time.sleep(8)
@@ -282,22 +279,47 @@ def executar_script():
                     except:
                         continue
                     
-                def mover_arquivos_produtos(download_dir, diretorio_destino_produtos):
-                    for arquivo in os.listdir(download_dir):
-                        
-                        if arquivo.lower().endswith('.csv'):
-                            
+                def mover_arquivos_produtos(download_dir, diretorio_destino_produtos, prefixo):
+                    # Obtém o mês e ano atual
+                    mes_ano_atual = datetime.now().strftime("%m_%Y")
+                    
+                    # Define os novos nomes baseados no formato desejado
+                    nomes_desejados = [
+                        f"{prefixo} {mes_ano_atual}.csv",
+                        f"{prefixo} {mes_ano_atual} 1.csv"
+                    ]
+                    
+                    # Lista arquivos CSV no diretório de download
+                    arquivos_csv = [arquivo for arquivo in os.listdir(download_dir) if arquivo.lower().endswith('.csv')]
+
+                    # Ordena os arquivos pela data de modificação (do mais antigo para o mais recente)
+                    arquivos_ordenados = sorted(
+                        arquivos_csv,
+                        key=lambda arquivo: os.path.getmtime(os.path.join(download_dir, arquivo))
+                    )
+                    
+                    # Itera sobre os arquivos ordenados e renomeia conforme necessário
+                    for i, arquivo in enumerate(arquivos_ordenados):
+                        if i < len(nomes_desejados):
                             caminho_origem = os.path.join(download_dir, arquivo)
-                            caminho_destino = os.path.join(diretorio_destino_produtos, arquivo)
+                            caminho_destino = os.path.join(diretorio_destino_produtos, nomes_desejados[i])
                             
                             try:
+                                # Apenas renomeia o segundo arquivo se houver dois ou mais arquivos
+                                if i == 1 and len(arquivos_ordenados) < 2:
+                                    break
+
                                 shutil.move(caminho_origem, caminho_destino)
+                                print(f"Arquivo {arquivo} movido e renomeado para {nomes_desejados[i]}")
                             except Exception as e:
-                                print('Erro')
+                                print(f"Erro ao mover {arquivo}: {e}")
+                                
                                 
                 diretorio_destino_produtos = 'G:\\Drives compartilhados\\Agregar Negócios - Drive Geral\\Agregar Clientes Ativos\\BL GLASSES LTDA\\3. Finanças\\3 - Relatórios Financeiros\\03. BANCO DE DADOS\\PRODUTOS\\01 - PRODUTOS GERAL'
                 
-                mover_arquivos_produtos(download_dir, diretorio_destino_produtos)
+                mover_arquivos_produtos(download_dir, diretorio_destino_produtos, prefixo)
+                
+                
                 
             # Executa o processo para cada conjunto de credenciais e destinos
             for indice_iteracao, (usuario, senha, destinos) in enumerate(credenciais_destinos_caixa_financeiro):
@@ -306,7 +328,13 @@ def executar_script():
                 baixar_caixa_financeiro(destinos, is_first_iteration)
 
                 if is_first_iteration:
-                    baixar_vendas_produtos()
+                    prefixo = "Produtos BL"
+                else:
+                    prefixo = "Produtos Bcoltro"
+                    
+                baixar_vendas_produtos(prefixo)
+                    
+                if is_first_iteration:
                     executar_downloads_e_movimentacao()
                     baixar_contas_pagar()
 
