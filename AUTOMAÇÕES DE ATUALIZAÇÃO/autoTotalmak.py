@@ -63,6 +63,21 @@ def executar_script():
                 navegador.find_element(
                     By.XPATH, '//*[@id="login"]/div[5]/button').click()
                 time.sleep(15)
+                
+                # Altera a loja para "Totalmak"
+                navegador.find_element(By.XPATH, '//*[@id="__BVID__42__BV_toggle_"]').click()
+                navegador.find_element(By.XPATH, '//*[@id="__BVID__42__BV_toggle_menu_"]/li[2]/a').click()
+                
+                # Tenta logar em uma loja nova, se não, apenas mantém na que está
+                try:
+                    navegador.find_element(By.XPATH, '//*[@id="modal-dialog___BV_modal_footer_"]/button[2]').clic()
+                except Exception as e:
+                    print('Já está logado na loja')
+                    
+                # Aperta no botão 'Ok' para manter logado na loja
+                navegador.find_element(By.XPATH, '//*[@id="modal-dialog___BV_modal_footer_"]/button')
+                time.sleep(10)
+
 
             def baixar_contas(url, destinos):
                 # Acessa a página do relatório
@@ -185,8 +200,8 @@ def executar_script():
 
             def baixar_contas_receber_pagar():
                 # Baixa os relatórios de contas a pagar
-                #baixar_contas(
-                    #'https://gestaoclick.com/relatorios_financeiros/relatorio_contas_pagar', destinos_contas_pagar)
+                baixar_contas(
+                    'https://gestaoclick.com/relatorios_financeiros/relatorio_contas_pagar', destinos_contas_pagar)
 
                 # Baixa os relatórios de contas a receber
                 baixar_contas(
@@ -226,7 +241,6 @@ def executar_script():
                 time.sleep(1)
 
                 # Marca a opção 'Exibir relatório detalhado'
-
                 navegador.find_element(
                     By.XPATH, '/html/body/div[2]/div/div/aside[2]/div/section[2]/div/div/div/form/div[1]/div[17]/div[1]/label').click()
                 time.sleep(1)

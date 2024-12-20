@@ -10,7 +10,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 from datetime import datetime, timedelta
-import pyautogui
 
 def executar_script():
     max_tentativas = 2
@@ -89,13 +88,20 @@ def executar_script():
                 data_inicial_input = navegador.find_element(By.XPATH, '/html/body/div[7]/div[5]/div[3]/div[1]/div[1]/div/div[2]/div[2]/div/div[2]/div[1]/input')
                 data_final_input = navegador.find_element(By.XPATH, '/html/body/div[7]/div[5]/div[3]/div[1]/div[1]/div/div[2]/div[2]/div/div[2]/div[2]/input')
 
-                data_inicial_input.clear()
-                data_inicial_input.send_keys(primeiro_dia_mes_atual)
+                # Condição para definir a data tanto na BL como Bcoltro
+                if not is_first_iteration:
+                    data_inicial_input.clear()
+                    data_inicial_input.send_keys("01/07/2024")
+                else:
+                    data_inicial_input.clear()
+                    data_inicial_input.send_keys(primeiro_dia_mes_atual)
+                
                 time.sleep(1)
-
+                
                 data_final_input.clear()
                 data_final_input.send_keys(data_atual.strftime('%d/%m/%Y'))
                 time.sleep(1)
+                    
                 # Aplica os filtros de data
                 navegador.find_element(By.XPATH, '/html/body/div[7]/div[5]/div[3]/div[1]/div[1]/div/div[2]/div[2]/div/div[3]/div[2]/button').click()
                 time.sleep(20)
@@ -234,6 +240,7 @@ def executar_script():
 
                     if os.path.exists(downloaded_file):
                         shutil.move(downloaded_file, new_file_path)
+                        print(f"Arquivo '{downloaded_file}' movido para {new_file_path}")
                     else:
                         print(f"Arquivo '{downloaded_file}' não encontrado para mover.")
 
@@ -267,16 +274,15 @@ def executar_script():
                 # Para cada XPath na lista
                 for xpath in xpaths:
                     try:
-                        
                         elemento_clicavel = WebDriverWait(navegador, 10).until(
                             EC.element_to_be_clickable((By.XPATH, xpath))
                         )
 
                         elemento_clicavel.click()
                         time.sleep(5)
-        
                         break
-                    except:
+                    except Exception as e:
+                        print(f"Erro ao clicar no link: {e}")
                         continue
                     
                 def mover_arquivos_produtos(download_dir, diretorio_destino_produtos, prefixo):
@@ -314,19 +320,16 @@ def executar_script():
                             except Exception as e:
                                 print(f"Erro ao mover {arquivo}: {e}")
                                 
-                                
                 diretorio_destino_produtos = 'G:\\Drives compartilhados\\Agregar Negócios - Drive Geral\\Agregar Clientes Ativos\\BL GLASSES LTDA\\3. Finanças\\3 - Relatórios Financeiros\\03. BANCO DE DADOS\\PRODUTOS\\01 - PRODUTOS GERAL'
                 
                 mover_arquivos_produtos(download_dir, diretorio_destino_produtos, prefixo)
-                
-                
-                
+
             # Executa o processo para cada conjunto de credenciais e destinos
             for indice_iteracao, (usuario, senha, destinos) in enumerate(credenciais_destinos_caixa_financeiro):
                 login_bling(usuario, senha)
                 is_first_iteration = (indice_iteracao == 0)
-                baixar_caixa_financeiro(destinos, is_first_iteration)
-
+                #baixar_caixa_financeiro(destinos, is_first_iteration)
+                
                 if is_first_iteration:
                     prefixo = "Produtos BL"
                 else:
@@ -334,9 +337,9 @@ def executar_script():
                     
                 baixar_vendas_produtos(prefixo)
                     
-                if is_first_iteration:
-                    executar_downloads_e_movimentacao()
-                    baixar_contas_pagar()
+                # if is_first_iteration:
+                #     executar_downloads_e_movimentacao()
+                #     baixar_contas_pagar()
 
             break
 
