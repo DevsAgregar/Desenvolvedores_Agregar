@@ -66,11 +66,12 @@ def executar_script():
                 
                 # Altera a loja para "Totalmak"
                 navegador.find_element(By.XPATH, '//*[@id="__BVID__42__BV_toggle_"]').click()
-                navegador.find_element(By.XPATH, '//*[@id="__BVID__42__BV_toggle_menu_"]/li[2]/a').click()
+                navegador.find_element(By.XPATH, '//*[@id="__BVID__42__BV_toggle_menu_"]/li[3]/a').click()
+                time.sleep(2)
                 
                 # Tenta logar em uma loja nova, se não, apenas mantém na que está
                 try:
-                    navegador.find_element(By.XPATH, '//*[@id="modal-dialog___BV_modal_footer_"]/button[2]').clic()
+                    navegador.find_element(By.XPATH, '//*[@id="modal-dialog___BV_modal_footer_"]/button[2]').click()
                 except Exception as e:
                     print('Já está logado na loja')
                     

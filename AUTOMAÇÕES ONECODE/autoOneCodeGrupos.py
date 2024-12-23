@@ -72,7 +72,7 @@ def executar_script():
 
     elif dia_da_semana == 4:  # Sexta-feira
         clientes = [
-            {"nome": "AL CARRETAS - FINANCEIRO", "mensagem": "Olá, AL Carretas, muito bom dia! Segue o link de acesso do seu relatório financeiro:  https://app.powerbi.com/view?r=eyJrIjoiN2FlM2I5MjYtNWI1MC00OGNlLTgzNzgtN2JjMWY5MWRjMTk2IiwidCI6ImNmZmVjMmI5LWQ1ODUtNGE2Yi04MzllLTA1MzVlNTljZjViZCJ9"},
+            #{"nome": "AL CARRETAS - FINANCEIRO", "mensagem": "Olá, AL Carretas, muito bom dia! Segue o link de acesso do seu relatório financeiro:  https://app.powerbi.com/view?r=eyJrIjoiN2FlM2I5MjYtNWI1MC00OGNlLTgzNzgtN2JjMWY5MWRjMTk2IiwidCI6ImNmZmVjMmI5LWQ1ODUtNGE2Yi04MzllLTA1MzVlNTljZjViZCJ9"},
             {"nome": "MENTORIA BPO ASSOCIAR", "mensagem": "Olá, Associar, muito bom dia! Segue o link de acesso do seu relatório financeiro:  https://app.powerbi.com/view?r=eyJrIjoiYWE3MzVmNDgtODMzNS00ODQ4LThjOGMtNjU0N2NjZTA4MjNiIiwidCI6ImNmZmVjMmI5LWQ1ODUtNGE2Yi04MzllLTA1MzVlNTljZjViZCJ9"},
             {"nome": "MAGNUS CABELOS - PROJ. FINANCEIRO", "mensagem": "Olá, Magnus Cabelos, muito bom dia! Segue o link de acesso do seu relatório financeiro:  https://app.powerbi.com/view?r=eyJrIjoiMGRiMDg5OWUtMDc0Ny00ZjIwLWE0M2UtMzgxZmQwODAzYzllIiwidCI6ImNmZmVjMmI5LWQ1ODUtNGE2Yi04MzllLTA1MzVlNTljZjViZCJ9"}
         ]
